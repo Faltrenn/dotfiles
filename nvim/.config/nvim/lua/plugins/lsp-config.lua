@@ -1,3 +1,5 @@
+_G.lsps = { "lua_ls", "pyright", "sqlls", "ts_ls", "html" }
+
 return {
   { -- Manage lp's, linters, formaters
     "williamboman/mason.nvim",
@@ -8,7 +10,6 @@ return {
   { -- Connect mason to lspconfig
     "williamboman/mason-lspconfig.nvim",
     config = function()
-      _G.lsps = { "lua_ls", "pyright", "sqlls", "ts_ls", "html" }
       require("mason-lspconfig").setup({
         ensure_installed = _G.lsps,
       })
@@ -20,45 +21,15 @@ return {
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
 
-      -- for i, lsp in pairs(_G.lsps) do
-      --   lspconfig[lsp].setup({
-      --     capabilities = capabilities,
-      --     root_dir = function(fname)
-      --       return vim.loop.cwd()
-      --     end,
-      --   })
-      -- end
-
       -- Config of lsp's
-      lspconfig.sourcekit.setup({
-        capabilities = capabilities,
-        root_dir = function(fname)
-          return vim.loop.cwd()
-        end,
-      })
-
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-      })
-
-      lspconfig.pyright.setup({
-        capabilities = capabilities,
-      })
-
-      lspconfig.sqlls.setup({
-        capabilities = capabilities,
-      })
-
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities,
-        root_dir = function(fname)
-          return vim.loop.cwd()
-        end,
-      })
-
-      lspconfig.html.setup({
-        capabilities = capabilities,
-      })
+      for _, lsp in ipairs(_G.lsps) do
+        lspconfig[lsp].setup({
+          capabilities = capabilities,
+          root_dir = function(fname)
+            return vim.loop.cwd()
+          end,
+        })
+      end
 
       -- Keybindings
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
@@ -115,13 +86,23 @@ return {
             if ls.expand_or_jumpable() then
               ls.jump(1)
             else
-              return vim.api.nvim_replace_termcodes("<Tab>", true, true, true)
+              return vim.api.nvim_replace_termcodes(
+                "<Tab>",
+                true,
+                true,
+                true
+              )
             end
           else
-              if ls.jumpable(-1) then
-                ls.jump(-1)
-              else
-                return vim.api.nvim_replace_termcodes("<C-d>", true, true, true)
+            if ls.jumpable(-1) then
+              ls.jump(-1)
+            else
+              return vim.api.nvim_replace_termcodes(
+                "<C-d>",
+                true,
+                true,
+                true
+              )
             end
           end
         end
@@ -143,6 +124,4 @@ return {
       end, { silent = true })
     end,
   },
-
 }
-
