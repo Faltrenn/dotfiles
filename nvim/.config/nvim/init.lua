@@ -18,6 +18,18 @@ vim.opt.mouse = ""          -- Disable mouse actions
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- Close search hover
 vim.keymap.set("n", "<leader>pq", "<cmd>Ex<CR>")    -- Close file without close editor
 
+-- Commands
+-- Enable to create nonexistentFolder/newFile in NetRW
+vim.api.nvim_create_autocmd("BufNewFile", {
+  pattern = "*",
+  callback = function()
+    local dir = vim.fn.expand("<afile>:p:h")
+    if vim.fn.isdirectory(dir) == 0 then
+      vim.fn.mkdir(dir, "p")
+    end
+  end,
+})
+
 -- Aliases
 vim.api.nvim_create_user_command("W", "w", {})
 vim.api.nvim_create_user_command("Q", "q", {})
