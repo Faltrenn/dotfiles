@@ -1,5 +1,5 @@
-return {
-  {
+return { 
+  { -- Search files and Text in files
     'nvim-telescope/telescope.nvim', tag = '0.1.8',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function ()
@@ -10,7 +10,7 @@ return {
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
     end
   },
-  {
+  { -- Add telescope to some windows
     "nvim-telescope/telescope-ui-select.nvim",
     config = function()
       require("telescope").setup {

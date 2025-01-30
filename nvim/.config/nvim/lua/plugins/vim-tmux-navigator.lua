@@ -1,4 +1,4 @@
-return {
+return { -- Navigate between nvim windows and tmux windows with the same keybindings (need a plugin on tmux)
 	"christoomey/vim-tmux-navigator",
 	config = function()
     vim.keymap.set("n", "C-h", ":TmuxNavigateLeft<CR>")
