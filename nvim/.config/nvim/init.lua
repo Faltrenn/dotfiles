@@ -30,6 +30,14 @@ vim.api.nvim_create_autocmd("BufNewFile", {
   end,
 })
 
+-- Copy the opened file's path (i use to open html files on browser)
+vim.api.nvim_create_user_command("Cppath", function()
+    local path = vim.fn.expand("%:p")
+    vim.fn.setreg("+", path)
+    vim.notify('Copied "' .. path .. '" to the clipboard!')
+end, {})
+
+
 -- Aliases
 vim.api.nvim_create_user_command("W", "w", {})
 vim.api.nvim_create_user_command("Q", "q", {})
