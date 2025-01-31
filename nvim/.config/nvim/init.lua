@@ -1,4 +1,5 @@
 require("config.lazy")
+_G.vim = vim -- Fix a annoying error undefined global 'vim'
 
 -- Theme
 vim.cmd.colorscheme("catppuccin") -- Define Theme
