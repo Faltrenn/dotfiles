@@ -31,10 +31,13 @@ return {
 				})
 			end
 
+      local keymap = vim.keymap
+
 			-- Keybindings
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
-			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+			keymap.set("n", "K", vim.lsp.buf.hover, {})
+			keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
+			keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+      keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
 		end,
 	},
 	{ -- Show lsp things
