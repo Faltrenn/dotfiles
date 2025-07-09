@@ -6,9 +6,14 @@ return { -- Better syntax highlighting
 
     configs.setup({
       auto_install = true,
-      highlight = { enable = true },
       indent = { enable = true },
+
+      ignore_install = { "latex" },
+      highlight = {
+        enable = true,
+
+        disable = { "latex" },
+      },
     })
   end,
 }
-

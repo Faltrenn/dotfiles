@@ -1,4 +1,4 @@
-_G.lsps = { "lua_ls", "pyright", "sqlls", "ts_ls", "html", "cssls", "clangd" }
+_G.lsps = { "lua_ls", "pyright", "sqlls", "ts_ls", "html", "cssls", "clangd", "tailwindcss" }
 
 return {
   { -- Manage lp's, linters, formaters
