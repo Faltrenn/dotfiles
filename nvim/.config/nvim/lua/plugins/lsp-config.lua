@@ -1,4 +1,4 @@
-_G.lsps = { "lua_ls", "pyright", "sqlls", "ts_ls", "html", "cssls", "clangd", "tailwindcss" }
+_G.lsps = { "lua_ls", "pyright", "sqlls", "ts_ls", "html", "cssls", "clangd", "tailwindcss", "texlab" }
 
 return {
   { -- Manage lp's, linters, formaters
@@ -144,6 +144,7 @@ return {
           null_ls.builtins.formatting.sql_formatter,
           null_ls.builtins.formatting.biome,
           null_ls.builtins.formatting.prettier,
+          null_ls.builtins.formatting.latexindent,
         },
       })
       vim.keymap.set({ "n", "v" }, "<leader>gf", vim.lsp.buf.format, {})

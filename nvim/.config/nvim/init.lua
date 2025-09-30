@@ -14,6 +14,7 @@ vim.opt.undofile = true -- Enable undo even after close editor
 vim.opt.scrolloff = 10 -- Set line offset in scroll
 vim.opt.colorcolumn = "88" -- Set a different color to the character 88 of each line
 vim.opt.mouse = "" -- Disable mouse actions
+vim.opt.ignorecase = true
 
 -- Keybindings
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- Close search hover
