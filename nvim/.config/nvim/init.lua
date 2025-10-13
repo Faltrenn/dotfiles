@@ -17,6 +17,8 @@ vim.opt.colorcolumn = "88" -- Set a different color to the character 88 of each 
 vim.opt.mouse = ""         -- Disable mouse actions
 vim.opt.ignorecase = true
 
+-- vim.opt.cmdheight = 0 -- Merge nvim bottom bar to command line
+
 -- Keybindings
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- Close search hover
 vim.keymap.set("n", "<leader>pq", "<cmd>Ex<CR>")    -- Close file without close editor
