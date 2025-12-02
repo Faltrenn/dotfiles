@@ -28,6 +28,14 @@ return {
 
 				capabilities = capabilities,
 			}
+
+
+			vim.lsp.config.clangd = {
+				cmd = {
+					"clangd",
+					"--compile-commands-dir=build",
+				},
+			}
 		end,
 	},
 	{
