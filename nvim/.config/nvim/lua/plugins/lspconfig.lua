@@ -23,18 +23,24 @@ return {
 				cmd = { sourcekit_path },
 				filetypes = { "swift", "objective-c", "objective-cpp" },
 
-				-- ⚠️ CORREÇÃO: Usamos o lsp_util carregado explicitamente
 				root_dir = lsp_util.root_pattern("Package.swift", ".git", ".xcodeproj"),
 
 				capabilities = capabilities,
 			}
 
-
 			vim.lsp.config.clangd = {
 				cmd = {
 					"clangd",
+                    "--fallback-style=webkit",
 					"--compile-commands-dir=build",
 				},
+			}
+
+			vim.lsp.config.ts_ls = {
+				capabilities = capabilities,
+				root_dir = function(fname)
+					return vim.loop.cwd()
+				end,
 			}
 		end,
 	},
@@ -60,6 +66,11 @@ return {
 		},
 		{ -- Show lsp things
 			"hrsh7th/nvim-cmp",
+			dependencies = {
+				"L3MON4D3/LuaSnip",
+				"saadparwaiz1/cmp_luasnip",
+			},
+
 			config = function()
 				local cmp = require("cmp")
 
@@ -100,6 +111,9 @@ return {
 			build = "make install_jsregexp",
 			config = function()
 				local ls = require("luasnip")
+				require("luasnip.loaders.from_lua").load({
+					paths = "~/.config/nvim/lua/snippets",
+				})
 				local function jump_or_tab(forward)
 					return function()
 						if forward then
@@ -172,7 +186,7 @@ return {
 						extra_args = { "--line-length", limit },
 					}),
 					-- null_ls.builtins.formatting.sql_formatter,
-					-- null_ls.builtins.formatting.biome,
+					null_ls.builtins.formatting.biome,
 					-- null_ls.builtins.formatting.prettier,
 					-- null_ls.builtins.formatting.latexindent,
 				},
