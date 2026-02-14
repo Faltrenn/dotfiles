@@ -16,6 +16,7 @@ return {
 			-- Garante que o módulo utilitário nativo esteja carregado.
 			local lsp_util = require("lspconfig.util")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+            capabilities.semanticTokensProvider = nil;
 			local sourcekit_path_full = vim.fn.system("xcrun -f sourcekit-lsp")
 			local sourcekit_path = sourcekit_path_full:gsub("%s", "")
 
