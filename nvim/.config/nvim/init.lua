@@ -1,1 +1,3 @@
-print("Opa")
+require("config.lazy")
+
+vim.cmd.colorscheme "catppuccin-nvim"
