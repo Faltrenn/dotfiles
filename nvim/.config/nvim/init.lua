@@ -33,12 +33,12 @@ keymap.set({"n", "v"}, "<leader>gg", function ()
 end, { desc = "Show Neogit UI" })
 
 -- Telescope config
-local builtin = require("telescope.builtin")
+local telescope_builtin = require("telescope.builtin")
 
-keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
-keymap.set("n", "<leader>fg", builtin.live_grep,  { desc = "Telescope live grep"  })
-keymap.set("n", "<leader>fb", builtin.buffers,    { desc = "Telescope buffers"    })
-keymap.set("n", "<leader>fh", builtin.help_tags,  { desc = "Telescope help tags"  })
+keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Telescope find files" })
+keymap.set("n", "<leader>fg", telescope_builtin.live_grep,  { desc = "Telescope live grep"  })
+keymap.set("n", "<leader>fb", telescope_builtin.buffers,    { desc = "Telescope buffers"    })
+keymap.set("n", "<leader>fh", telescope_builtin.help_tags,  { desc = "Telescope help tags"  })
 
 -- Aliases
 vim.api.nvim_create_user_command("W",     "w",     {})
