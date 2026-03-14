@@ -10,7 +10,7 @@ return {
         highlight = {
             enable = true,
 
-            disable = { "latex" },
+            disable = { "latex" }, -- Best highlight by latex plugin.
         },
     }
 }
