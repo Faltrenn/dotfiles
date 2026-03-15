@@ -1,8 +1,2 @@
-return {
-	"catppuccin/nvim",
-	name = "catppuccin",
-	priority = 1000,
-	opts= {
-		flavour = "auto"
-	}
-}
+vim.pack.add({{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" }})
+vim.cmd.colorscheme("catppuccin-nvim")
