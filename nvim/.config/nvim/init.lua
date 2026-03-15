@@ -6,3 +6,22 @@ pack.add{{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" }}
 
 vim.cmd.colorscheme "catppuccin-nvim"
 
+-- Oil | File explorer
+
+pack.add{{ src = "https://github.com/stevearc/oil.nvim", name = "oil" }}
+
+require("oil").setup({
+	default_file_explorer = true,
+	delete_to_trash = true,
+	columns = { "permissions", "size", "mtime" },
+	skip_confirm_for_simple_edits = true,
+	view_options = { show_hidden = true },
+	use_default_keymaps = false,
+	keymaps = {
+		["<CR>"] = "actions.select", -- Select with enter.
+		["-"] = { "actions.parent", mode = "n" },
+	}
+})
+
+keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
