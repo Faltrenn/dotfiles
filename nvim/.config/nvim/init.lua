@@ -31,3 +31,18 @@ require("oil").setup({
 
 keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
+-- Neogit | Tool to handle git
+
+pack.add{{ src = "https://github.com/NeogitOrg/neogit", name = "neogit" }}
+
+require("neogit").setup({
+	kind ="floating",
+	commit_editor = {
+		kind = "floating",
+		show_staged_diff = true,
+		spell_check = true,
+	}
+})
+
+keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>")
+
