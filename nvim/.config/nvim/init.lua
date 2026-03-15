@@ -46,3 +46,9 @@ require("neogit").setup({
 
 keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>")
 
+-- Some basic configs
+
+vim.o.undofile = true
+vim.o.number = true
+
+
