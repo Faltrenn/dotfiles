@@ -1,3 +1,9 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
+local keymap = vim.keymap
+local pack = vim.pack
+
 -- Plenary | Plugin toolkit | Some plugins depends on it
 pack.add{{ src = "https://github.com/nvim-lua/plenary.nvim", name = "plenary" }}
 
