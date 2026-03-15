@@ -46,9 +46,11 @@ require("neogit").setup({
 
 keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>")
 
+-- Vim Tmux Navigator | Easy navigation between neovim windows and tmux panels
+
+pack.add{{ src = "https://github.com/christoomey/vim-tmux-navigator" }}
+
 -- Some basic configs
 
 vim.o.undofile = true
 vim.o.number = true
-
-
