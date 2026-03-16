@@ -17,16 +17,16 @@ vim.cmd.colorscheme "catppuccin-nvim"
 pack.add{{ name = "oil", src = "https://github.com/stevearc/oil.nvim" }}
 
 require("oil").setup({
-	default_file_explorer = true,
-	delete_to_trash = true,
-	columns = { "permissions", "size", "mtime" },
-	skip_confirm_for_simple_edits = true,
-	view_options = { show_hidden = true },
-	use_default_keymaps = false,
-	keymaps = {
-		["<CR>"] = "actions.select", -- Select with enter.
-		["-"] = { "actions.parent", mode = "n" },
-	}
+    default_file_explorer = true,
+    delete_to_trash = true,
+    columns = { "permissions", "size", "mtime" },
+    skip_confirm_for_simple_edits = true,
+    view_options = { show_hidden = true },
+    use_default_keymaps = false,
+    keymaps = {
+        ["<CR>"] = "actions.select", -- Select with enter.
+        ["-"] = { "actions.parent", mode = "n" },
+    }
 })
 
 keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
@@ -36,12 +36,12 @@ keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 pack.add{{ name = "neogit", src = "https://github.com/NeogitOrg/neogit" }}
 
 require("neogit").setup({
-	kind ="floating",
-	commit_editor = {
-		kind = "floating",
-		show_staged_diff = true,
-		spell_check = true,
-	}
+    kind ="floating",
+    commit_editor = {
+        kind = "floating",
+        show_staged_diff = true,
+        spell_check = true,
+    }
 })
 
 keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>")
@@ -58,24 +58,30 @@ local parser_install_dir = vim.fn.stdpath('data') .. '/site'
 vim.opt.runtimepath:prepend(parser_install_dir)
 
 require('nvim-treesitter').setup {
-	install_dir = parser_install_dir,
+    install_dir = parser_install_dir,
 }
+
+local ignore_types = { "", "oil", "NeogitStatus", "nvim-pack" }
+local ignore_list = {}
+for _, type in ipairs(ignore_types) do
+    ignore_list[type] = true
+end
 
 vim.api.nvim_create_autocmd('FileType', {
     pattern = { "*" },
     callback = function()
         local bufnr = vim.api.nvim_get_current_buf()
         local ft = vim.bo[bufnr].filetype
-        
+
         -- Ignora tipos de arquivo vazios ou específicos como 'oil'
-        if ft == "" or ft == "oil" then return end
+        if ignore_list[ft] then return end
 
         local ok = pcall(vim.treesitter.start, bufnr)
 
         if not ok then
             -- Tenta descobrir o nome da linguagem para o Treesitter
             local lang = vim.treesitter.language.get_lang(ft) or ft
-            
+
             vim.cmd("TSInstall " .. lang)
 
             local function try_start_later()
@@ -83,12 +89,12 @@ vim.api.nvim_create_autocmd('FileType', {
                     -- Tenta iniciar o treesitter
                     if pcall(vim.treesitter.start, bufnr) then
                         print("Treesitter activated for " .. lang)
-			return
+                        return
                     end
-		    try_start_later() -- RECURSÃO: Tenta novamente se falhou
+                    try_start_later() -- RECURSÃO: Tenta novamente se falhou
                 end, 1000)
             end
-            
+
             -- INICIA a primeira tentativa
             try_start_later()
         end
@@ -99,8 +105,16 @@ vim.api.nvim_create_autocmd('FileType', {
 
 vim.o.undofile = true
 vim.o.number = true
+vim.o.tabstop = 4      -- A TAB character looks like 4 spaces
+vim.o.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
+vim.o.softtabstop = 4  -- Number of spaces inserted instead of a TAB character
+vim.o.shiftwidth = 4   -- Number of spaces inserted when indenting
+vim.o.scrolloff = 10   -- Set line offset in scroll
+
+keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- Close search highlight
 
 -- Aliases
+
 vim.api.nvim_create_user_command("W",     "w",     {})
 vim.api.nvim_create_user_command("Q",     "q",     {})
 -- vim.api.nvim_create_user_command("W!",    "w!",    {})
