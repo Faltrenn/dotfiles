@@ -136,6 +136,19 @@ mc.addKeymapLayer(function(layerSet)
     layerSet("n", "<esc>", mc.clearCursors)
 end)
 
+-- Live Server | Hot reload to web project
+
+pack.add {{ name="live-server", src="https://github.com/ngtuonghy/live-server-nvim" }}
+
+require("live-server-nvim").setup {
+    custom = {
+        "--port=8080",
+        "--no-css-inject",
+    },
+    serverPath = vim.fn.stdpath("data") .. "/live-server/", --default
+    open = "folder", -- folder|cwd     --default
+}
+
 -- Some basic configs
 
 vim.o.undofile = true
