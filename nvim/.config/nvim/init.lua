@@ -5,18 +5,18 @@ local keymap = vim.keymap
 local pack = vim.pack
 
 -- Plenary | Plugin toolkit | Some plugins depends on it
-pack.add{{ name = "plenary", src = "https://github.com/nvim-lua/plenary.nvim" }}
+pack.add {{ name = "plenary", src = "https://github.com/nvim-lua/plenary.nvim" }}
 
 -- Catppuccin | Colorscheme
-pack.add{{ name = "catppuccin", src = "https://github.com/catppuccin/nvim" }}
+pack.add {{ name = "catppuccin", src = "https://github.com/catppuccin/nvim" }}
 
 vim.cmd.colorscheme "catppuccin-nvim"
 
 -- Oil | File explorer
 
-pack.add{{ name = "oil", src = "https://github.com/stevearc/oil.nvim" }}
+pack.add {{ name = "oil", src = "https://github.com/stevearc/oil.nvim" }}
 
-require("oil").setup({
+require("oil").setup {
     default_file_explorer = true,
     delete_to_trash = true,
     columns = { "permissions", "size", "mtime" },
@@ -27,22 +27,22 @@ require("oil").setup({
         ["<CR>"] = "actions.select", -- Select with enter.
         ["-"] = { "actions.parent", mode = "n" },
     }
-})
+}
 
 keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- Neogit | Tool to handle git
 
-pack.add{{ name = "neogit", src = "https://github.com/NeogitOrg/neogit" }}
+pack.add {{ name = "neogit", src = "https://github.com/NeogitOrg/neogit" }}
 
-require("neogit").setup({
+require("neogit").setup {
     kind ="floating",
     commit_editor = {
         kind = "floating",
         show_staged_diff = true,
         spell_check = true,
     }
-})
+}
 
 keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>")
 
@@ -62,11 +62,11 @@ end, { desc = "Show Neogit UI" })
 
 -- Vim Tmux Navigator | Easy navigation between neovim windows and tmux panels
 
-pack.add{{ name="vim-tmux-navigator", src = "https://github.com/christoomey/vim-tmux-navigator" }}
+pack.add {{ name="vim-tmux-navigator", src = "https://github.com/christoomey/vim-tmux-navigator" }}
 
 -- Treesitter | Better code highlight
 
-pack.add{{ name = "treesitter", src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" }}
+pack.add {{ name = "treesitter", src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" }}
 
 local parser_install_dir = vim.fn.stdpath('data') .. '/site'
 vim.opt.runtimepath:prepend(parser_install_dir)
@@ -177,7 +177,7 @@ pack.add {
 }
 
 local telescope = require("telescope")
-telescope.setup({
+telescope.setup {
     extensions = {
         fzf = {
             fuzzy = true,
@@ -186,7 +186,7 @@ telescope.setup({
             case_mode = "smart_case",
         }
     }
-})
+}
 telescope.load_extension("fzf")
 
 local telescope_builtin = require("telescope.builtin")
@@ -200,11 +200,13 @@ keymap.set("n", "<leader>fh", telescope_builtin.help_tags,  { desc = "Telescope 
 
 vim.o.undofile = true
 vim.o.number = true
-vim.o.tabstop = 4      -- A TAB character looks like 4 spaces
-vim.o.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
-vim.o.softtabstop = 4  -- Number of spaces inserted instead of a TAB character
-vim.o.shiftwidth = 4   -- Number of spaces inserted when indenting
-vim.o.scrolloff = 10   -- Set line offset in scroll
+vim.o.tabstop = 4          -- A TAB character looks like 4 spaces
+vim.o.expandtab = true     -- Pressing the TAB key will insert spaces instead of a TAB character
+vim.o.softtabstop = 4      -- Number of spaces inserted instead of a TAB character
+vim.o.shiftwidth = 4       -- Number of spaces inserted when indenting
+vim.o.scrolloff = 10       -- Set line offset in scroll
+vim.opt.colorcolumn = "88" -- Set a different color to the column 88 of each line
+vim.opt.ignorecase = true
 
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- Close search highlight
 
