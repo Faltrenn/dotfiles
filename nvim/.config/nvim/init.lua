@@ -229,12 +229,16 @@ keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- Close search highlight
 
 -- Aliases
 
-vim.api.nvim_create_user_command("W",     "w",     {})
-vim.api.nvim_create_user_command("Q",     "q",     {})
--- vim.api.nvim_create_user_command("W!",    "w!",    {})
--- vim.api.nvim_create_user_command("Q!",    "q!",    {})
-vim.api.nvim_create_user_command("Qa",    "qa",    {})
-vim.api.nvim_create_user_command("Wq",    "wq",    {})
-vim.api.nvim_create_user_command("WQ",    "wq",    {})
-vim.api.nvim_create_user_command("Wqa",   "wqa",   {})
-vim.api.nvim_create_user_command("WQa",   "wqa",   {})
+-- Abreviações para salvar e sair mesmo com o Shift apertado
+vim.cmd([[
+  cnoreabbrev W w
+  cnoreabbrev Q q
+  cnoreabbrev W! w!
+  cnoreabbrev Q! q!
+  cnoreabbrev Wa wa
+  cnoreabbrev Wq wq
+  cnoreabbrev WA wa
+  cnoreabbrev WQ wq
+  cnoreabbrev Wqa wqa
+  cnoreabbrev WQa wqa
+]])
