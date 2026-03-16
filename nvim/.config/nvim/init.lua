@@ -149,6 +149,12 @@ require("live-server-nvim").setup {
     open = "folder", -- folder|cwd     --default
 }
 
+-- ScrollEOF | Add space at bottom of screen when scroll to very bottom
+
+pack.add {{ name="scroll-eof", src="https://github.com/Aasim-A/scrollEOF.nvim" }}
+
+require("scrollEOF").setup()
+
 -- Some basic configs
 
 vim.o.undofile = true
