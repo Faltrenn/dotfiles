@@ -155,6 +155,13 @@ pack.add {{ name="scroll-eof", src="https://github.com/Aasim-A/scrollEOF.nvim" }
 
 require("scrollEOF").setup()
 
+-- Telescope | Fuzzy finder trought files.
+
+pack.add {
+    { src="https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
+    { name="telescope", src="https://github.com/nvim-telescope/telescope.nvim" }
+}
+
 -- Some basic configs
 
 vim.o.undofile = true
