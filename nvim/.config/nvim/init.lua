@@ -79,8 +79,9 @@ vim.api.nvim_create_autocmd('FileType', {
         local ok = pcall(vim.treesitter.start, bufnr)
 
         if not ok then
-            -- Tenta descobrir o nome da linguagem para o Treesitter
             local lang = vim.treesitter.language.get_lang(ft) or ft
+
+            if ignore_list[lang] then return end
 
             vim.cmd("TSInstall " .. lang)
 
@@ -91,7 +92,7 @@ vim.api.nvim_create_autocmd('FileType', {
                         print("Treesitter activated for " .. lang)
                         return
                     end
-                    try_start_later() -- RECURSÃO: Tenta novamente se falhou
+                    try_start_later()
                 end, 1000)
             end
 
