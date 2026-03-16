@@ -204,7 +204,7 @@ telescope.setup {
         }
     }
 }
-telescope.load_extension("fzf")
+telescope.load_extension("fzf") -- You need to build the project manually in pack folder download
 
 local telescope_builtin = require("telescope.builtin")
 
