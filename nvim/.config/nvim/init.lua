@@ -62,16 +62,37 @@ require('nvim-treesitter').setup {
 }
 
 vim.api.nvim_create_autocmd('FileType', {
-	pattern = { "*" },
-	callback = function()
-		if not pcall(vim.treesitter.start, bufnr) then -- try to start treesitter which enables syntax highlighting
-			return -- Exit if treesitter was unable to start
-		end
+    pattern = { "*" },
+    callback = function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        local ft = vim.bo[bufnr].filetype
+        
+        -- Ignora tipos de arquivo vazios ou específicos como 'oil'
+        if ft == "" or ft == "oil" then return end
 
-		-- vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-		-- vim.wo[0][0].foldmethod = 'expr'
-		-- vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-	end,
+        local ok = pcall(vim.treesitter.start, bufnr)
+
+        if not ok then
+            -- Tenta descobrir o nome da linguagem para o Treesitter
+            local lang = vim.treesitter.language.get_lang(ft) or ft
+            
+            vim.cmd("TSInstall " .. lang)
+
+            local function try_start_later()
+                vim.defer_fn(function()
+                    -- Tenta iniciar o treesitter
+                    if pcall(vim.treesitter.start, bufnr) then
+                        print("Treesitter activated for " .. lang)
+			return
+                    end
+		    try_start_later() -- RECURSÃO: Tenta novamente se falhou
+                end, 1000)
+            end
+            
+            -- INICIA a primeira tentativa
+            try_start_later()
+        end
+    end
 })
 
 -- Some basic configs
