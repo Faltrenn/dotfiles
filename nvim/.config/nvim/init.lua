@@ -51,18 +51,27 @@ keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>")
 pack.add{{ name="vim-tmux-navigator", src = "https://github.com/christoomey/vim-tmux-navigator" }}
 
 -- Treesitter | Better code highlight
-pack.add{{ name = "treesitter", src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" }}
 
-require("nvim-treesitter.configs").setup({
-    auto_install = true,
-    indent = { enable = true },
+pack.add{{ name = "treesitter", src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" }}
 
-    ignore_install = { "latex" },
-    highlight = {
-	enable = true,
+local parser_install_dir = vim.fn.stdpath('data') .. '/site'
+vim.opt.runtimepath:prepend(parser_install_dir)
 
-	disable = { "latex" },
-    },
+require('nvim-treesitter').setup {
+	install_dir = parser_install_dir,
+}
+
+vim.api.nvim_create_autocmd('FileType', {
+	pattern = { "*" },
+	callback = function()
+		if not pcall(vim.treesitter.start, bufnr) then -- try to start treesitter which enables syntax highlighting
+			return -- Exit if treesitter was unable to start
+		end
+
+		-- vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+		-- vim.wo[0][0].foldmethod = 'expr'
+		-- vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+	end,
 })
 
 -- Some basic configs
