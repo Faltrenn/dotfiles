@@ -135,37 +135,18 @@ vim.api.nvim_create_autocmd('PackChanged', {
 
 -- Multicursor | Enable multicursors
 
-pack.add {{ name = "multicursor", src = "https://github.com/jake-stewart/multicursor.nvim", version = "1.0"}}
-local mc = require("multicursor-nvim")
-mc.setup()
--- Add or skip cursor above/below the main cursor.
-keymap.set({"n", "x"}, "<up>", function() mc.lineAddCursor(-1) end)
-keymap.set({"n", "x"}, "<down>", function() mc.lineAddCursor(1) end)
-keymap.set({"n", "x"}, "<leader><up>", function() mc.lineSkipCursor(-1) end)
-keymap.set({"n", "x"}, "<leader><down>", function() mc.lineSkipCursor(1) end)
+pack.add{{ name="multiple-cursor", src="https://github.com/brenton-leighton/multiple-cursors.nvim" }}
 
--- Add or skip adding a new cursor by matching word/selection
-keymap.set({"n", "x"}, "<leader>n", function() mc.matchAddCursor(1) end)
-keymap.set({"n", "x"}, "<leader>s", function() mc.matchSkipCursor(1) end)
-keymap.set({"n", "x"}, "<leader>N", function() mc.matchAddCursor(-1) end)
-keymap.set({"n", "x"}, "<leader>S", function() mc.matchSkipCursor(-1) end)
+local mc = require("multiple-cursors").setup {
+    remove_in_opposite_direction = false,
+}
 
--- Disable and enable cursors.
--- set({"n", "x"}, "<c-q>", mc.toggleCursor)
-
--- Mappings defined in a keymap layer only apply when there are
--- multiple cursors. This lets you have overlapping mappings.
-mc.addKeymapLayer(function(layerSet)
-    -- Select a different cursor as the main one.
-    layerSet({"n", "x"}, "<left>", mc.prevCursor)
-    layerSet({"n", "x"}, "<right>", mc.nextCursor)
-
-    -- Delete the main cursor.
-    layerSet({"n", "x"}, "<leader>x", mc.deleteCursor)
-
-    -- Enable and clear cursors using escape.
-    layerSet("n", "<esc>", mc.clearCursors)
-end)
+keymap.set({"n", "x"}, "<A-down>", "<cmd>MultipleCursorsAddDown<CR>", { desc = "Add cursor and move down" })
+keymap.set({"n", "x"}, "<A-up>", "<cmd>MultipleCursorsAddUp<CR>", { desc = "Add cursor and move up" })
+keymap.set({"n", "x"}, "<leader>a", "<cmd>MultipleCursorsAddMatches<CR>", { desc = "Add cursors to cword" })
+keymap.set({"n", "x"}, "<leader>n", "<cmd>MultipleCursorsAddJumpNextMatch<CR>", { desc = "Add cursor and jump to next cword" })
+keymap.set({"n", "x"}, "<leader>s", "<cmd>MultipleCursorsJumpNextMatch<CR>", { desc = "Jump to next cword" })
+keymap.set({"n", "x"}, "<leader>l", "<cmd>MultipleCursorsLock<CR>", { desc = "Lock virtual cursors" })
 
 -- Live Server | Hot reload to web project
 
