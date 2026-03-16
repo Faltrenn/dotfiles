@@ -46,6 +46,20 @@ require("neogit").setup({
 
 keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>")
 
+NEOGIT_DIR = require("oil").get_current_dir()
+
+keymap.set("n", "<leader>cwd", function()
+    NEOGIT_DIR = require("oil").get_current_dir()
+    if not NEOGIT_DIR then
+        NEOGIT_DIR = vim.fn.expand("%:p:h")
+    end
+    print("Neogit Working Directory setted to", NEOGIT_DIR)
+end, { desc = "Change neogit working directory" })
+
+keymap.set({"n", "v"}, "<leader>gg", function ()
+    require("neogit").open({ cwd=NEOGIT_DIR })
+end, { desc = "Show Neogit UI" })
+
 -- Vim Tmux Navigator | Easy navigation between neovim windows and tmux panels
 
 pack.add{{ name="vim-tmux-navigator", src = "https://github.com/christoomey/vim-tmux-navigator" }}
