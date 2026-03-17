@@ -75,7 +75,7 @@ require('nvim-treesitter').setup {
     install_dir = parser_install_dir,
 }
 
-local ignore_types = { "", "oil", "NeogitStatus", "nvim-pack" }
+local ignore_types = { "", "oil", "oil_preview", "NeogitStatus", "nvim-pack" }
 local ignore_list = {}
 for _, type in ipairs(ignore_types) do
     ignore_list[type] = true
