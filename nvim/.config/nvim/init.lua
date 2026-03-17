@@ -71,47 +71,36 @@ pack.add {{ name = "treesitter", src = "https://github.com/nvim-treesitter/nvim-
 local parser_install_dir = vim.fn.stdpath('data') .. '/site'
 vim.opt.runtimepath:prepend(parser_install_dir)
 
-require('nvim-treesitter').setup {
+local treesitter = require('nvim-treesitter')
+treesitter.setup {
     install_dir = parser_install_dir,
 }
 
-local ignore_types = { "", "oil", "oil_preview", "NeogitStatus", "nvim-pack" }
-local ignore_list = {}
-for _, type in ipairs(ignore_types) do
-    ignore_list[type] = true
+function get_buffer_lang()
+    local ft = vim.bo.filetype
+    return vim.treesitter.language.get_lang(ft) or ft
 end
+
+function print_buffer_lang()
+    print(get_buffer_lang())
+end
+
+-- Criamos uma função global para o Vim conseguir ler
+_G.my_statusline_lang = get_buffer_lang
+
+-- %f = nome arquivo, %m = modificado, %= = separa esquerda/direita
+vim.opt.statusline = "%f %m %= %l,%c %{v:lua.get_buffer_lang()} %y"
 
 vim.api.nvim_create_autocmd('FileType', {
     pattern = { "*" },
     callback = function()
-        local bufnr = vim.api.nvim_get_current_buf()
-        local ft = vim.bo[bufnr].filetype
+        local lang = get_buffer_lang()
 
-        -- Ignora tipos de arquivo vazios ou específicos como 'oil'
-        if ignore_list[ft] then return end
-
-        local ok = pcall(vim.treesitter.start, bufnr)
-
-        if not ok then
-            local lang = vim.treesitter.language.get_lang(ft) or ft
-
-            if ignore_list[lang] then return end
-
-            vim.cmd("TSInstall " .. lang)
-
-            local function try_start_later()
-                vim.defer_fn(function()
-                    -- Tenta iniciar o treesitter
-                    if pcall(vim.treesitter.start, bufnr) then
-                        print("Treesitter activated for " .. lang)
-                        return
-                    end
-                    try_start_later()
-                end, 1000)
+        for _, installed_lang in ipairs(treesitter.get_installed()) do
+            if lang == installed_lang then
+                vim.treesitter.start()
+                return
             end
-
-            -- INICIA a primeira tentativa
-            try_start_later()
         end
     end
 })
