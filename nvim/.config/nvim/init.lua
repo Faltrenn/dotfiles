@@ -183,10 +183,20 @@ keymap.set("n", "<leader>fg", telescope_builtin.live_grep,  { desc = "Telescope 
 keymap.set("n", "<leader>fb", telescope_builtin.buffers,    { desc = "Telescope buffers"    })
 keymap.set("n", "<leader>fh", telescope_builtin.help_tags,  { desc = "Telescope help tags"  })
 
+-- Compile mode | Add a compile mode thats can run commands from neovim.
+pack.add {{ name="compile-mode", src="https://github.com/ej-shafran/compile-mode.nvim" }}
+
+keymap.set("n", "<leader>cc", "<cmd>Compile<CR>")
+
+vim.g.compile_mode = {
+    default_command = "make -C build/",
+    focus_compilation_buffer = true,
+}
+
 -- Some basic configs
 
-vim.o.undofile = true
-vim.o.number = true
+vim.o.undofile = true      -- Undo even if close neovim
+vim.o.number = true        -- Show numbers in lines
 vim.o.tabstop = 4          -- A TAB character looks like 4 spaces
 vim.o.expandtab = true     -- Pressing the TAB key will insert spaces instead of a TAB character
 vim.o.softtabstop = 4      -- Number of spaces inserted instead of a TAB character
@@ -199,7 +209,6 @@ keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- Close search highlight
 
 -- Aliases
 
--- Abreviações para salvar e sair mesmo com o Shift apertado
 vim.cmd([[
   cnoreabbrev W w
   cnoreabbrev Q q
