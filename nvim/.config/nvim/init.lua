@@ -150,12 +150,6 @@ require("live-server-nvim").setup {
     open = "folder", -- folder|cwd     --default
 }
 
--- ScrollEOF | Add space at bottom of screen when scroll to very bottom
-
-pack.add {{ name="scroll-eof", src="https://github.com/Aasim-A/scrollEOF.nvim" }}
-
-require("scrollEOF").setup()
-
 -- Telescope | Fuzzy finder trought files.
 
 pack.add {
@@ -184,6 +178,7 @@ keymap.set("n", "<leader>fb", telescope_builtin.buffers,    { desc = "Telescope 
 keymap.set("n", "<leader>fh", telescope_builtin.help_tags,  { desc = "Telescope help tags"  })
 
 -- Compile mode | Add a compile mode thats can run commands from neovim.
+
 pack.add {{ name="compile-mode", src="https://github.com/ej-shafran/compile-mode.nvim" }}
 
 keymap.set("n", "<leader>cc", "<cmd>Compile<CR>")
@@ -201,11 +196,46 @@ vim.o.tabstop = 4          -- A TAB character looks like 4 spaces
 vim.o.expandtab = true     -- Pressing the TAB key will insert spaces instead of a TAB character
 vim.o.softtabstop = 4      -- Number of spaces inserted instead of a TAB character
 vim.o.shiftwidth = 4       -- Number of spaces inserted when indenting
-vim.o.scrolloff = 10       -- Set line offset in scroll
-vim.opt.colorcolumn = "88" -- Set a different color to the column 88 of each line
-vim.opt.ignorecase = true
+vim.o.colorcolumn = "88"   -- Set a different color to the column 88 of each line
+vim.o.ignorecase = true    -- Find text will not be case sensitive
+vim.o.scrolloff = 20
 
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>") -- Close search highlight
+
+-- ScrollEOF manual
+
+local function get_virtual_empty_lines()
+    local win_info = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1]
+    local total_lines = vim.api.nvim_buf_line_count(0)
+    local lines_of_text_visible = math.max(0, total_lines - win_info.topline + 1)
+    return math.max(0, win_info.height - lines_of_text_visible)
+end
+
+local scroll_eof = function()
+    local offset = vim.o.scrolloff
+    local current_row = vim.api.nvim_win_get_cursor(0)[1]
+    local total_rows = vim.api.nvim_buf_line_count(0)
+    local blank_lines = get_virtual_empty_lines()
+
+    local lines_to_scroll = offset - (total_rows + blank_lines - current_row)
+
+    if lines_to_scroll > 0 then
+        local ctrl_e = vim.api.nvim_replace_termcodes("<C-e>", true, true, true)
+        for i = 1, lines_to_scroll do
+            vim.api.nvim_feedkeys(ctrl_e, "n", false)
+        end
+    end
+end
+
+local scroll_group = vim.api.nvim_create_augroup("ScrollEOF", { clear = true })
+
+vim.api.nvim_create_autocmd({ "CursorMoved" }, {
+    group = scroll_group,
+    pattern = "*",
+    callback = function()
+        scroll_eof()
+    end,
+})
 
 -- Aliases
 
