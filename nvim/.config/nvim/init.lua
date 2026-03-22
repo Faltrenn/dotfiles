@@ -216,7 +216,7 @@ local function get_virtual_empty_lines()
 end
 
 local scroll_eof = function()
-    local win_half_height = get_win_info().height / 2
+    local win_half_height = math.floor(get_win_info().height / 2)
     local offset = vim.o.scrolloff < win_half_height and vim.o.scrolloff or win_half_height
     local current_row = vim.api.nvim_win_get_cursor(0)[1]
     local total_rows = vim.api.nvim_buf_line_count(0)
